@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/antieatingactivist/my-home-server/issues"
   },
-  "homepage": "https://github.com/antieatingactivist/my-home-server#readme"
+  "homepage": "https://github.com/antieatingactivist/my-home-server#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
 }

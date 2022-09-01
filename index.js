@@ -1,12 +1,18 @@
-const https = require('https');
-const fs = require('fs');
+// Dependencies
+const express = require('express');
 
-const options = {
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem')
-};
+const app = express();
 
-https.createServer(options, function (req, res) {
-  res.writeHead(200);
-  res.end("hello world\n");
-}).listen(8000);
+const PORT = 8000;
+
+
+// Routes
+app.get('/', (req, res) => {
+  res.send("Henlo World");
+});
+
+
+
+
+// Listener
+app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
