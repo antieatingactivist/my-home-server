@@ -1,7 +1,6 @@
-
 import express from 'express';
 import path from 'path';
-import {fileURLToPath} from 'url';
+import { fileURLToPath } from 'url';
 import https from 'https';
 import http from 'http';
 import fs from 'fs';
@@ -16,38 +15,35 @@ const httpApp = express();
 const PORT = 443;
 
 
-app.enable('trust proxy')
+app.enable('trust proxy');
 
-app.use('/RGB-strip-controller', express.static(path.join(__dirname, "../build")));
-
+// app.use('/RGB-strip-controller', express.static(path.join(__dirname, "../build")));
 
 // Routes
 httpApp.get("*", function(req, res, next) {
   res.redirect("https://" + req.headers.host + req.path);
 });
 
-
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, "../build/index.html"));
+  res.sendFile(path.join(__dirname, "./index.html"));
 });
 
-
+app.get("/Tech-Blog", function(req, res, next) {
+  res.redirect("http://localhost:3001/");
+});
 
 
 // Listeners
 https.createServer({
-        key: fs.readFileSync(process.env.KEY_PEM),
-        cert: fs.readFileSync(process.env.CERT_PEM),
+  key: fs.readFileSync(process.env.KEY_PEM),
+  cert: fs.readFileSync(process.env.CERT_PEM),
 },app)
   .listen(PORT, ()=>{
-    console.log(`App listening on PORT ${PORT}`)
+    console.log(`App listening on PORT ${PORT}`);
     console.log(process.env);
   });
 //redirect server
-http.createServer(httpApp).listen(80, function() {
-  console.log("Express TTP server listening on port 80");
-});
-
-
-
-
+http.createServer(httpApp)
+  .listen(80, function() {
+    console.log("Express TTP server listening on port 80");
+  });
