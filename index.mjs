@@ -24,27 +24,73 @@ httpApp.get("*", function(req, res, next) {
   res.redirect("https://" + req.headers.host + req.path);
 });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, "./index.html"));
-});
-
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, "./index.html"));
+// });
 
 fs.readdir(__dirname+"/public", (err, files) => {
   if(err) console.log(err);
   else {
+    
+    let fileList = "";
     files.forEach(project => {
-      dotenv.config({
-        path: path.join("./public/" + project + "/.env")
-      });
-      console.log(project);
-      console.log(process.env.PORT);
-      app.get("/" + project, function(req, res, next) {
-        res.redirect(`http://localhost:${process.env.PORT}/`);
-        // res.redirect(`http://localhost:3001/`);
-      });
-    })
+      if (!project.includes(".")) {
+        
+        fileList += `<p><a href="/${project}">${project}</a></p>`;
+        dotenv.config({
+          path: path.join("./public/" + project + "/.env")
+        });
+        console.log(project);
+        console.log(process.env.PORT);
+        app.get("/" + project, function(req, res, next) {
+          res.redirect(`https://localhost:${process.env.PORT}/`);
+        });
+      }
+    });
+
+    
+
+
+    app.get('/', (req, res) => {
+      res.send(`
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+            <style>
+                body {
+                    color: #ffffff;
+                    background-color: #000000;
+    
+                }
+                a {
+                  color: #ffffff;
+                }
+            </style>
+        </head>
+        <body>
+            ${fileList}
+        </body>
+        </html>
+      
+      
+      `);
+    });
+
+
   }
 })
+
+
+
+
+
+
+
+
+
 
 
 // Listeners
