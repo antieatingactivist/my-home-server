@@ -15,6 +15,15 @@ const app = express();
 const PORT = 8000;
 
 app.use('/RGB-strip-controller', express.static(path.join(__dirname, "../build")));
+app.use(function(request, response, next) {
+
+  if (process.env.NODE_ENV != 'development' && !request.secure) {
+     return response.redirect("https://" + request.headers.host + request.url);
+  }
+
+  next();
+});
+
 // Routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, "../build/index.html"));
