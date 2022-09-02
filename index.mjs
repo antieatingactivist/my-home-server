@@ -4,7 +4,9 @@ import path from 'path';
 import {fileURLToPath} from 'url';
 import https from 'https';
 import fs from 'fs';
+import * as dotenv from 'dotenv';
 
+dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -25,8 +27,8 @@ app.get('/', (req, res) => {
 https
   .createServer(
     {
-        key: fs.readFileSync("key.pem"),
-        cert: fs.readFileSync("cert.pem"),
+        key: fs.readFileSync(process.env.KEY_PEM),
+        cert: fs.readFileSync(process.env.CERT_PEM),
     },
 
     app
