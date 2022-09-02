@@ -12,7 +12,9 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+
 const PORT = 8000;
+app.enable('trust proxy')
 
 app.use('/RGB-strip-controller', express.static(path.join(__dirname, "../build")));
 app.use(function(request, response, next) {
