@@ -28,9 +28,23 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, "./index.html"));
 });
 
-app.get("/Tech-Blog", function(req, res, next) {
-  res.redirect("http://localhost:3001/");
-});
+
+fs.readdir(__dirname+"/public", (err, files) => {
+  if(err) console.log(err);
+  else {
+    files.forEach(project => {
+      dotenv.config({
+        path: path.join("./public/" + project + "/.env")
+      });
+      console.log(project);
+      console.log(process.env.PORT);
+      app.get("/" + project, function(req, res, next) {
+        res.redirect(`http://localhost:${process.env.PORT}/`);
+        // res.redirect(`http://localhost:3001/`);
+      });
+    })
+  }
+})
 
 
 // Listeners
