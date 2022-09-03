@@ -31,12 +31,7 @@ var options = {
 
 
 
-app.use('/Tech-Blog/', createProxyMiddleware({ 
-  target: 'https://localhost:3001', 
-  changeOrigin: true, 
-  secure: false, 
-  pathRewrite: {'^/Tech-Blog' : ''} 
-}));
+
 
 // app.use(proxy('localhost:3001', {
 //   proxyReqPathResolver: function (req) {
@@ -83,7 +78,7 @@ fs.readdir(__dirname+"/public", (err, files) => {
     
 
 
-    app.get('/', (req, res) => {
+    app.get('/list', (req, res) => {
       res.send(`
         <html lang="en">
         <head>
@@ -110,6 +105,15 @@ fs.readdir(__dirname+"/public", (err, files) => {
       
       `);
     });
+
+    app.use(createProxyMiddleware({ 
+      secure: false,
+      target: 'https://localhost:3001', 
+      router: {
+        '/Tech-Blog': 'https://localhost:3001'
+      },
+      pathRewrite: {'^/Tech-Blog' : ''}
+    }));
 
 
   }
