@@ -37,13 +37,13 @@ fs.readdir(__dirname+"/public", (err, files) => {
       if (!project.includes(".")) {
         
         fileList += `<p><a href="/${project}">${project}</a></p>`;
-        dotenv.config({
-          path: path.join("./public/" + project + "/.env")
-        });
         console.log(project);
-        console.log(process.env.PORT);
+        const port = dotenv.config({
+          path: path.join("./public/" + project + "/.env")
+        }).parsed.PORT;
+        console.log(port);
         app.get("/" + project, function(req, res, next) {
-          res.redirect(`https://localhost:${process.env.PORT}/`);
+          res.redirect(`https://localhost:${port}/`);
         });
       }
     });
